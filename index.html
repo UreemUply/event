@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유플러스 이벤트 혜택 진단</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=031976a908a7025af454fac04bb981c7&libraries=services"></script>
+
+    <style>
+        /* (기존과 동일한 CSS 스타일) */
+        :root { --uplus-pink: #e6007e; --uplus-dark: #222222; --uplus-gray: #f5f6f8; --uplus-border: #e0e0e0; }
+        body { background-color: var(--uplus-gray); font-family: 'Noto Sans KR', sans-serif; padding: 20px 10px; margin: 0; color: var(--uplus-dark); }
+        .container { max-width: 650px; margin: auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; }
+        .header { text-align: center; padding: 60px 20px 20px; position: relative; }
+        .header h1 { font-size: 24px; font-weight: 700; margin: 0 0 10px 0; color: var(--uplus-dark); letter-spacing: -0.5px; line-height: 1.3; }
+        .header p { font-size: 15px; color: #555; line-height: 1.5; word-break: keep-all; margin: 0 10px; }
+        .back-nav { position: absolute; top: 20px; left: 20px; background: none; border: none; color: #777; font-size: 14px; cursor: pointer; text-decoration: underline; z-index: 10; padding: 5px; }
+        .event-card { background-color: #fff; border: 1px solid var(--uplus-border); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); text-align: left; }
+        .event-card .badge { display: inline-block; background-color: var(--uplus-pink); color: white; font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 20px; margin-bottom: 10px; }
+        .event-card h3 { margin: 0 0 8px 0; font-size: 18px; color: var(--uplus-dark); }
+        .event-card p { margin: 0; font-size: 14px; color: #555; line-height: 1.5; }
+        .info-box { background-color: #fff0f5; border: 2px solid var(--uplus-pink); border-radius: 12px; padding: 18px 15px; margin: 20px auto 0; text-align: center; }
+        .info-box p { margin: 0; font-size: 15px; color: var(--uplus-dark); line-height: 1.6; word-break: keep-all; }
+        form { padding: 0 20px 20px; }
+        .question { margin-bottom: 28px; }
+        .question h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--uplus-dark); line-height: 1.4; word-break: keep-all; }
+        .question .desc { font-size: 13px; color: #888; margin-bottom: 12px; display: block; }
+        .radio-group { display: flex; flex-direction: column; gap: 8px; }
+        label { display: flex; align-items: center; padding: 12px 16px; background: #ffffff; border: 1px solid var(--uplus-border); border-radius: 8px; font-size: 14px; cursor: pointer; transition: all 0.2s; line-height: 1.4; }
+        label:hover { border-color: var(--uplus-pink); }
+        input[type="radio"], input[type="checkbox"] { accent-color: var(--uplus-pink); width: 18px; height: 18px; margin-right: 10px; flex-shrink: 0; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 14px 16px; border: 1px solid var(--uplus-border); border-radius: 8px; font-size: 14px; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+        input[type="text"]:focus, input[type="password"]:focus { outline: none; border-color: var(--uplus-pink); }
+        .submit-btn { background-color: var(--uplus-pink); color: #ffffff; font-size: 18px; font-weight: 700; border: none; border-radius: 8px; padding: 16px; width: 100%; cursor: pointer; margin-top: 10px; transition: background-color 0.2s; }
+        .submit-btn:hover { background-color: #cc006f; }
+        .submit-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        .btn-secondary { background-color: #555; color: #fff; } 
+        .btn-secondary:hover { background-color: #333; }
+        .admin-toggle { text-align: center; margin: 30px 0 10px; }
+        .admin-toggle button { background: none; border: none; color: #aaa; cursor: pointer; font-size: 13px; text-decoration: underline; }
+        .table-container { overflow-x: auto; margin-top: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
+        th, td { border: 1px solid var(--uplus-border); padding: 10px 8px; text-align: center; }
+        th { background-color: var(--uplus-gray); color: var(--uplus-dark); font-weight: 700; position: sticky; top: 0; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .admin-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+        .admin-controls button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; flex: 1; min-width: 100px; }
+        .btn-back { background-color: #555; color: white; }
+        .btn-download { background-color: #107c41; color: white; }
+        .btn-clear { background-color: #e74c3c; color: white; }
+        .top-logo { text-align: center; color: var(--uplus-pink); font-size: 32px; font-weight: 900; margin-bottom: 10px; }
+        .fixed-id { background-color: var(--uplus-gray); color: #555; font-weight: 700; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div id="menuView" style="padding: 40px 20px;">
+        <div class="header" style="padding-top: 10px;">
+            <div class="top-logo">U+</div>
+            <h1>유플러스 이벤트 진단</h1>
+            <p>현재 진행 중인 특별한 프로모션을 확인해보세요!</p>
+        </div>
+        <div style="margin-top: 20px;">
+            <div class="event-card">
+                <div class="badge">이벤트 1</div>
+                <h3>산업단지 기업체 임직원 프로모션</h3>
+                <p>해당 기업체 근무하신다면 140만원 더! 할인 받기</p>
+                <div style="font-size:13px; margin-top:10px; color:#666;">
+                    <p style="margin:0;">청주 ▶ 일반 산업단지, 테크노폴리스 산업단지</p>
+                    <p style="margin:5px 0 0 0;">대전 ▶ 대덕 산업단지, 신탄진 한국타이어</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="badge" style="background-color: #8E44AD;">이벤트 2</div>
+                <h3>학원 특별 프로모션</h3>
+                <p>10만원 더! 할인받기</p>
+                <p style="font-size:13px; margin-top:10px; color:#666;">자녀, 본인, 학원 임직원 등 학원에 다니시는 분이 있다면?</p>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 25px;">
+            <button class="submit-btn" onclick="openSurvey('충북')">충북 이벤트 참여하기</button>
+            <button class="submit-btn" style="background-color: #8E44AD;" onclick="openSurvey('대전')">대전 이벤트 참여하기</button>
+        </div>
+        <div class="admin-toggle" style="margin-top: 60px;">
+            <button type="button" onclick="showAdminLogin()">플래너 전용 페이지 (관리자)</button>
+        </div>
+    </div>
+
+    <div id="surveyView" style="display: none;">
+        <div class="header">
+            <button type="button" class="back-nav" onclick="goToMenu()">← 이전 메뉴로</button>
+            <h1 style="color: var(--uplus-pink); font-size: 22px;">유플러스 매장에 오신 것을 환영합니다! 🥰</h1>
+            <div class="info-box">
+                <p>지금 매장에서는 추가 지원금 프로모션이 한창 진행 중입니다.<br><br><strong>딱 1분만 투자해서</strong> 아래 질문에 답해보세요.<br>나도 몰랐던 추가 지원금을 우리 플래너가 쏙쏙 찾아드립니다! 🎁</p>
+            </div>
+        </div>
+
+        <form id="integratedForm">
+            <div class="question">
+                <h3>Q1. 📝 고객님의 성함을 적어주세요.</h3>
+                <input type="text" id="q1" placeholder="ex. 홍길동" required>
+            </div>
+            <div class="question">
+                <h3>Q2. 📱 현재 고객님의 휴대폰 통신사는 어디이신가요?</h3>
+                <div class="radio-group">
+                    <label><input type="radio" name="q2" value="LG U+" required> LG U+ (기기변경/가족결합 혜택을 찾아드릴게요!)</label>
+                    <label><input type="radio" name="q2" value="타사(SK,KT,알뜰폰)"> 타사(SK,KT,알뜰폰)</label>
+                </div>
+            </div>
+            <div class="question">
+                <h3>Q3. 📺 댁에서 이용 중이신 인터넷/TV 통신사는 어디이신가요?</h3>
+                <div class="radio-group">
+                    <label><input type="radio" name="q3" value="LG U+" required> LG U+</label>
+                    <label><input type="radio" name="q3" value="타사(SK,KT,지역케이블)"> 타사(SK,KT,지역케이블)</label>
+                    <label><input type="radio" name="q3" value="미사용"> 인터넷/TV를 사용하지 않음</label>
+                </div>
+            </div>
+            <div class="question">
+                <h3>Q4. 👨‍👩‍👧‍👦 고객님을 포함한 가족 구성원 수는?</h3>
+                <span class="desc">가족 결합 할인 설계를 위한 문항입니다.</span>
+                <div class="radio-group">
+                    <label><input type="radio" name="q4" value="1인" required> 1인</label>
+                    <label><input type="radio" name="q4" value="2인"> 2인</label>
+                    <label><input type="radio" name="q4" value="3인"> 3인</label>
+                    <label><input type="radio" name="q4" value="4인"> 4인</label>
+                    <label><input type="radio" name="q4" value="5인 이상"> 5인 이상</label>
+                </div>
+            </div>
+
+            <div id="chungbukQuestions" style="display: none;">
+                <div class="question">
+                    <h3>Q5. 🚨 [핵심진단] "청주 일반 산업단지", "테크노폴리스 산업단지" 에 있는 기업에 근무하시나요?</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q5" value="본인 근무" required> 1. 네, 해당 지역에서 일하고 있습니다. 💼</label>
+                        <label><input type="radio" name="q5" value="가족 근무"> 2. 가족중에 해당 지역에서 일하고 있는 사람이 있습니다. 👨‍👩‍👦</label>
+                        <label><input type="radio" name="q5" value="해당 없음"> 3. 아니요 다른 지역에서 일합니다.</label>
+                        <label><input type="radio" name="q5" value="확인 필요"> 4. 이벤트에 해당이 되는지 확인해주세요.</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Q6. 🏫 현재 다니고 계신(또는 자녀가 다니는) 학원이 아래 상가 중 한 곳에 위치해 있나요?</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q6" value="청주 복대동 지웰시티몰 1차" required> 청주 복대동 지웰시티몰 1차 (복대동 3379)</label>
+                        <label><input type="radio" name="q6" value="청주 복대동 테라스퀘어"> 청주 복대동 테라스퀘어 (복대동 288-6)</label>
+                        <label><input type="radio" name="q6" value="청주 용암동 에듀타워"> 청주 용암동 에듀타워 (용암동 307)</label>
+                        <label><input type="radio" name="q6" value="청주 가경동 메리맘스"> 청주 가경동 메리맘스 (가경동 2270)</label>
+                        <label><input type="radio" name="q6" value="청주 주성동 센타프라자"> 청주 주성동 센타프라자 (주성동 340)</label>
+                        <label><input type="radio" name="q6" value="충주 호암동 골드테라스"> 충주 호암동 골드테라스 (호암동 996)</label>
+                        <label><input type="radio" name="q6" value="충주 호암동 지음프라자"> 충주 호암동 지음프라자 (호암동 1026)</label>
+                        <label><input type="radio" name="q6" value="기타"> 위 목록에 없지만 학원에 다니고 있음</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="daejeonQuestions" style="display: none;">
+                <div class="question">
+                    <h3>Q5. 🚨 [핵심진단] "대덕 산업단지", "신탄진 한국타이어" 에 있는 기업에 근무하시나요?</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q5" value="본인 근무" required> 1. 네, 해당 지역에서 일하고 있습니다. 💼</label>
+                        <label><input type="radio" name="q5" value="가족 근무"> 2. 가족중에 해당 지역에서 일하고 있는 사람이 있습니다. 👨‍👩‍👦</label>
+                        <label><input type="radio" name="q5" value="해당 없음"> 3. 아니요 다른 지역에서 일합니다.</label>
+                        <label><input type="radio" name="q5" value="확인 필요"> 4. 이벤트에 해당이 되는지 확인해주세요.</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <h3>Q6. 🏫 현재 다니고 계신(또는 자녀가 다니는) 학원이 아래 상가 중 한 곳에 위치해 있나요?</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="q6" value="대전 가오동 수성프라자" required> 대전 가오동 수성프라자 (가오동 667)</label>
+                        <label><input type="radio" name="q6" value="대전 반석동 웰빙타운"> 대전 반석동 웰빙타운 (반석동 639-4)</label>
+                        <label><input type="radio" name="q6" value="대전 관저동 비전9빌딩"> 대전 관저동 비전9빌딩 (관저동 1989)</label>
+                        <label><input type="radio" name="q6" value="대전 상대동 도안드림빌딩"> 대전 상대동 도안드림빌딩 (상대동 455-2)</label>
+                        <label><input type="radio" name="q6" value="대전 만년동 만년코아"> 대전 만년동 만년코아 (만년동 266)</label>
+                        <label><input type="radio" name="q6" value="대전 관저동 빌리온2빌딩"> 대전 관저동 빌리온2빌딩 (관저동 1540)</label>
+                        <label><input type="radio" name="q6" value="대전 월평동 황실코아"> 대전 월평동 황실코아 (월평동 302)</label>
+                        <label><input type="radio" name="q6" value="세종 보람동 스마트허브"> 세종 보람동 스마트허브 (보람동 722)</label>
+                        <label><input type="radio" name="q6" value="세종 새롬동 해피라움W"> 세종 새롬동 해피라움W (새롬동 579)</label>
+                        <label><input type="radio" name="q6" value="세종 나성동 에스제이타워"> 세종 나성동 에스제이타워 (나성동 746)</label>
+                        <label><input type="radio" name="q6" value="기타"> 위 목록에 없지만 학원에 다니고 있음</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" id="submitBtn" class="submit-btn">할인 혜택 확인하기</button>
+            <button type="button" class="submit-btn btn-secondary" onclick="goToMenu()">처음 메뉴로 돌아가기</button>
+        </form>
+
+        <div class="admin-toggle">
+            <button type="button" onclick="showAdminLogin()">플래너 전용 페이지</button>
+        </div>
+    </div>
+
+    <div id="adminLoginView" style="display: none;">
+        <div class="header" style="padding-top: 60px;"> 
+            <button type="button" class="back-nav" onclick="cancelAdminLogin()">← 이전 메뉴로</button>
+            <div class="top-logo">플래너 모드</div>
+            <h1>플래너 전용 로그인</h1>
+            <p>고객 접수 내역을 보시려면 비밀번호를 입력해주세요.</p>
+        </div>
+        <form id="loginForm" style="padding: 0 20px 40px;">
+            <div class="question" style="margin-bottom: 12px;">
+                <input type="text" id="loginId" value="LGU+ 유림텔레콤" class="fixed-id" readonly>
+            </div>
+            <div class="question" style="margin-bottom: 24px;">
+                <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" required>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="submit-btn btn-secondary" style="flex: 1; margin-top: 0;" onclick="cancelAdminLogin()">취소</button>
+                <button type="submit" class="submit-btn" style="flex: 2; margin-top: 0;">로그인</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="adminView" style="display: none;">
+        <div class="header" style="padding-top: 60px;"> 
+            <button type="button" class="back-nav" onclick="goToMenu()">← 이전 메뉴로</button>
+            <h1 style="margin-bottom: 0;">통합 이벤트 접수 현황</h1>
+        </div>
+        
+        <div style="padding: 0 20px 20px;">
+            <div class="table-container">
+                <table id="resultTable">
+                    <thead>
+                        <tr>
+                            <th>지역</th>
+                            <th>접수일시</th>
+                            <th>고객명</th>
+                            <th>통신사</th>
+                            <th>인터넷/TV</th>
+                            <th>가족수</th>
+                            <th>산단근무(핵심)</th>
+                            <th>학원위치(핵심)</th>
+                            <th>접수위치(주소)</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="admin-controls">
+                <button type="button" class="btn-back" onclick="goToMenu()">메뉴 화면으로</button>
+                <button type="button" class="btn-download" onclick="downloadCSV()">엑셀 다운로드</button>
+                <button type="button" class="btn-clear" onclick="clearData()">전체 데이터 초기화</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 화면별 ID 모음
+    const views = {
+        menu: document.getElementById('menuView'),
+        surveyView: document.getElementById('surveyView'),
+        adminLogin: document.getElementById('adminLoginView'),
+        admin: document.getElementById('adminView')
+    };
+
+    let selectedRegion = ''; 
+
+    function switchView(targetView) {
+        Object.values(views).forEach(v => v.style.display = 'none');
+        views[targetView].style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    function goToMenu() {
+        switchView('menu');
+        document.getElementById('integratedForm').reset();
+    }
+
+    function openSurvey(region) {
+        selectedRegion = region; 
+        const cbDiv = document.getElementById('chungbukQuestions');
+        const djDiv = document.getElementById('daejeonQuestions');
+
+        if(region === '충북') {
+            cbDiv.style.display = 'block'; djDiv.style.display = 'none';
+            cbDiv.querySelectorAll('input').forEach(el => el.disabled = false);
+            djDiv.querySelectorAll('input').forEach(el => el.disabled = true);
+        } else {
+            cbDiv.style.display = 'none'; djDiv.style.display = 'block';
+            cbDiv.querySelectorAll('input').forEach(el => el.disabled = true);
+            djDiv.querySelectorAll('input').forEach(el => el.disabled = false);
+        }
+        switchView('surveyView');
+    }
+
+    function showAdminLogin() { switchView('adminLogin'); }
+    function cancelAdminLogin() { document.getElementById('loginPw').value = ''; switchView('menu'); }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pwInput = document.getElementById('loginPw').value;
+        if (pwInput === 'ureem2012') { 
+            document.getElementById('loginPw').value = ''; 
+            switchView('admin');
+            loadAdminData(); 
+        } else {
+            alert('비밀번호가 일치하지 않습니다.');
+        }
+    });
+
+    // --- 폼 제출 로직 ---
+    document.getElementById('integratedForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true; 
+        submitBtn.innerText = "위치 확인 및 접수 중...";
+
+        const q5_val = document.querySelector('input[name="q5"]:not([disabled]):checked')?.value || '-';
+        const q6_val = document.querySelector('input[name="q6"]:not([disabled]):checked')?.value || '-';
+
+        const saveData = (addressStr, latVal, lngVal) => {
+            const result = {
+                region: selectedRegion, 
+                q1: document.getElementById('q1').value,
+                q2: document.querySelector('input[name="q2"]:checked')?.value || '-',
+                q3: document.querySelector('input[name="q3"]:checked')?.value || '-',
+                q4: document.querySelector('input[name="q4"]:checked')?.value || '-',
+                q5: q5_val,
+                q6: q6_val,
+                address: addressStr,  
+                lat: latVal,          
+                lng: lngVal,          
+                timestamp: new Date().toLocaleString()
+            };
+            
+            let savedData = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
+            savedData.push(result);
+            localStorage.setItem('regionEventDataV2', JSON.stringify(savedData));
+            
+            alert(`[${selectedRegion} 지역] 이벤트 접수가 완료되었습니다! 🎉`);
+            document.getElementById('integratedForm').reset();
+            submitBtn.disabled = false;
+            submitBtn.innerText = "할인 혜택 확인하기";
+            switchView('menu'); 
+        };
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    var coord = new kakao.maps.LatLng(lat, lng);
+
+                    geocoder.coord2Address(coord.getLng(), coord.getLat(), function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var address = result[0].address.address_name;
+                            saveData(address, lat, lng); 
+                        } else {
+                            saveData("주소 변환 실패(서버 환경 필요)", lat, lng);
+                        }
+                    });
+                },
+                function(error) {
+                    saveData("위치 확인 불가(권한거부)", null, null);
+                },
+                { timeout: 5000 }
+            );
+        } else {
+            saveData("GPS 지원하지 않음", null, null);
+        }
+    });
+
+    // --- 관리자 데이터 표 그리기 ---
+    function loadAdminData() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = ''; 
+
+        const data = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
+        
+        if(data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9" style="padding:30px; color:#777;">아직 접수된 고객 내역이 없습니다.</td></tr>';
+            return;
+        }
+        
+        data.slice().reverse().forEach(row => {
+            const tr = document.createElement('tr');
+            const regionBadge = row.region === '충북' 
+                ? `<span style="background:var(--uplus-pink); color:white; padding:3px 8px; border-radius:10px;">충북</span>`
+                : `<span style="background:#8E44AD; color:white; padding:3px 8px; border-radius:10px;">대전</span>`;
+
+            let locDisplay = '-';
+            
+            // ★ 수정 포인트: 카카오맵 URL에 '접수고객위치' 라는 이름을 넣어서 마커(핀)를 강제로 띄웁니다.
+            if (row.address && row.lat && row.lng) {
+                const kakaoMapUrl = `https://map.kakao.com/link/map/접수고객위치,${row.lat},${row.lng}`;
+                locDisplay = `
+                    <div style="font-size:11px; margin-bottom:5px; white-space:normal; line-height:1.4;">${row.address}</div>
+                    <a href="${kakaoMapUrl}" target="_blank" style="display:inline-block; padding:3px 8px; background-color:#fee500; color:#000; border-radius:4px; font-size:11px; font-weight:bold; text-decoration:none;">📍 카카오맵</a>
+                `;
+            } else if (row.location) {
+                // 과거에 테스트했던 좌표 전용 데이터인 경우
+                if(row.location.includes(',')) {
+                    const coords = row.location.split(',');
+                    const fallbackUrl = `https://map.kakao.com/link/map/접수고객위치,${coords[0].trim()},${coords[1].trim()}`;
+                    locDisplay = `
+                        <div style="font-size:11px; margin-bottom:5px; color:#999;">${row.location} (구버전 데이터)</div>
+                        <a href="${fallbackUrl}" target="_blank" style="display:inline-block; padding:3px 8px; background-color:#fee500; color:#000; border-radius:4px; font-size:11px; font-weight:bold; text-decoration:none;">📍 카카오맵</a>
+                    `;
+                } else {
+                    locDisplay = `<span style="font-size:11px;">${row.location}</span>`; 
+                }
+            } else if (row.address) {
+                locDisplay = `<span style="font-size:11px;">${row.address}</span>`;
+            }
+
+            tr.innerHTML = `
+                <td>${regionBadge}</td>
+                <td style="font-size:11px;">${row.timestamp}</td>
+                <td style="font-weight:bold; color:var(--uplus-pink);">${row.q1}</td>
+                <td>${row.q2}</td>
+                <td>${row.q3}</td>
+                <td>${row.q4}</td>
+                <td style="font-weight:bold;">${row.q5}</td>
+                <td style="font-size:11px; white-space:normal; min-width:120px;">${row.q6}</td>
+                <td style="text-align:center;">${locDisplay}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function downloadCSV() {
+        const savedData = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
+        if(savedData.length === 0) { alert("다운로드할 데이터가 없습니다."); return; }
+        let csvContent = "\uFEFF"; 
+        csvContent += "지역,접수일시,고객명,현재 모바일,인터넷/TV,가족 수,산단근무여부,학원위치,접수위치(주소)\n";
+        savedData.forEach(d => {
+            const locText = d.address ? d.address : (d.location || '-');
+            csvContent += `"${d.region}","${d.timestamp}","${d.q1}","${d.q2}","${d.q3}","${d.q4}","${d.q5}","${d.q6}","${locText}"\n`;
+        });
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        const date = new Date();
+        const fileName = `유플러스_통합이벤트_접수내역_${date.getFullYear()}${String(date.getMonth()+1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}.csv`;
+        link.setAttribute("href", url); link.setAttribute("download", fileName); link.style.visibility = 'hidden';
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    }
+
+    // ★ 과거 데이터 지우기 함수 ★
+    function clearData() {
+        if(confirm("정말 모든 접수 내역을 삭제하시겠습니까? (삭제 전 엑셀 저장을 권장합니다)")) {
+            localStorage.removeItem('regionEventDataV2');
+            loadAdminData();
+            alert("전체 내역이 초기화 되었습니다. 이제 새로 테스트해보세요!");
+        }
+    }
+</script>
+
+</body>
+</html>
