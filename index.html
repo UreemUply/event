@@ -246,7 +246,7 @@
                 <h3>산업단지 기업체 임직원 프로모션</h3>
                 <p>해당 기업체 근무하신다면 140만원 더! 할인 받기</p>
                 <div style="font-size:13px; margin-top:10px; color:#666;">
-                    <p style="margin:0;">청주 ▶ 일반 산업단지, 테크노폴리스 산업단지</p>
+                    <p style="margin:0;">충북 ▶ 일반 산업단지, 테크노폴리스 산업단지</p>
                     <p style="margin:5px 0 0 0;">대전 ▶ 대덕 산업단지, 신탄진 한국타이어</p>
                 </div>
             </div>
@@ -571,10 +571,11 @@
                 ? `<span style="background:var(--uplus-pink); color:white; padding:3px 8px; border-radius:10px;">충북</span>`
                 : `<span style="background:#8E44AD; color:white; padding:3px 8px; border-radius:10px;">대전</span>`;
 
-            // 좌표인 경우 구글맵 링크 생성
+            // 좌표인 경우 구글맵 링크 생성 (수정된 완벽한 구글 맵 주소!)
             let locDisplay = row.location || '-';
             if(locDisplay.includes(',')) {
-                locDisplay = `<a href="https://www.google.com/maps/search/?api=1&query=$${row.location.replace(' ', '')}" target="_blank" style="color:var(--uplus-pink); text-decoration:underline;">지도보기</a><br><span style="font-size:10px; color:#888;">(${row.location})</span>`;
+                const coords = row.location.replace(/ /g, '');
+                locDisplay = `<a href="https://www.google.com/maps/search/?api=1&query=${coords}" target="_blank" style="color:var(--uplus-pink); text-decoration:underline; font-weight:bold;">지도보기</a><br><span style="font-size:10px; color:#888;">(${row.location})</span>`;
             }
 
             tr.innerHTML = `
