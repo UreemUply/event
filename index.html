@@ -6,7 +6,6 @@
     <title>유플러스 이벤트 혜택 진단</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* LG U+ 공식 홈페이지 스타일 (모던 & 마젠타 포인트) */
         :root {
             --uplus-pink: #e6007e;
             --uplus-dark: #222222;
@@ -14,37 +13,38 @@
             --uplus-border: #e0e0e0;
         }
 
-        body { 
-            background-color: var(--uplus-gray); 
-            font-family: 'Noto Sans KR', sans-serif; 
-            padding: 20px 10px; 
-            margin: 0; 
+        body {
+            background-color: var(--uplus-gray);
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 20px 10px;
+            margin: 0;
             color: var(--uplus-dark);
         }
-        
-        .container { 
-            max-width: 650px; 
-            margin: auto; 
-            background-color: #ffffff; 
-            border-radius: 16px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             overflow: hidden;
         }
 
-        /* 헤더 영역 */
         .header {
             text-align: center;
             padding: 60px 20px 20px;
             position: relative;
         }
-        .header h1 { 
-            font-size: 24px; 
-            font-weight: 700; 
-            margin: 0 0 10px 0; 
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
             color: var(--uplus-dark);
             letter-spacing: -0.5px;
             line-height: 1.3;
         }
+
         .header p {
             font-size: 15px;
             color: #555;
@@ -52,8 +52,7 @@
             word-break: keep-all;
             margin: 0 10px;
         }
-        
-        /* 뒤로가기 버튼 (상단) */
+
         .back-nav {
             position: absolute;
             top: 20px;
@@ -65,10 +64,9 @@
             cursor: pointer;
             text-decoration: underline;
             z-index: 10;
-            padding: 5px; 
+            padding: 5px;
         }
 
-        /* 혜택 강조 배너 (메뉴용) */
         .event-card {
             background-color: #fff;
             border: 1px solid var(--uplus-border);
@@ -78,6 +76,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             text-align: left;
         }
+
         .event-card .badge {
             display: inline-block;
             background-color: var(--uplus-pink);
@@ -88,11 +87,13 @@
             border-radius: 20px;
             margin-bottom: 10px;
         }
+
         .event-card h3 {
             margin: 0 0 8px 0;
             font-size: 18px;
             color: var(--uplus-dark);
         }
+
         .event-card p {
             margin: 0;
             font-size: 14px;
@@ -100,15 +101,15 @@
             line-height: 1.5;
         }
 
-        /* 핑크색 안내 문구 박스 (문진표용) */
         .info-box {
             background-color: #fff0f5;
-            border: 2px solid var(--uplus-pink); 
+            border: 2px solid var(--uplus-pink);
             border-radius: 12px;
             padding: 18px 15px;
             margin: 20px auto 0;
             text-align: center;
         }
+
         .info-box p {
             margin: 0;
             font-size: 15px;
@@ -117,101 +118,187 @@
             word-break: keep-all;
         }
 
-        /* 폼 영역 */
-        form { padding: 0 20px 20px; }
-        .question { margin-bottom: 28px; }
-        .question h3 { 
-            font-size: 16px; 
-            font-weight: 700; 
-            margin-bottom: 12px; 
+        form {
+            padding: 0 20px 20px;
+        }
+
+        .question {
+            margin-bottom: 28px;
+        }
+
+        .question h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
             color: var(--uplus-dark);
             line-height: 1.4;
             word-break: keep-all;
         }
+
         .question .desc {
             font-size: 13px;
             color: #888;
             margin-bottom: 12px;
             display: block;
         }
-        
-        /* 라디오/체크박스 버튼 디자인 */
+
         .radio-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        label { 
+
+        label {
             display: flex;
             align-items: center;
-            padding: 12px 16px; 
-            background: #ffffff; 
-            border: 1px solid var(--uplus-border); 
-            border-radius: 8px; 
-            font-size: 14px; 
-            cursor: pointer; 
+            padding: 12px 16px;
+            background: #ffffff;
+            border: 1px solid var(--uplus-border);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
             transition: all 0.2s;
             line-height: 1.4;
         }
-        label:hover { border-color: var(--uplus-pink); }
-        input[type="radio"], input[type="checkbox"] { 
+
+        label:hover {
+            border-color: var(--uplus-pink);
+        }
+
+        input[type="radio"], input[type="checkbox"] {
             accent-color: var(--uplus-pink);
             width: 18px;
             height: 18px;
             margin-right: 10px;
             flex-shrink: 0;
         }
-        input[type="text"], input[type="password"] { 
-            width: 100%; 
-            padding: 14px 16px; 
-            border: 1px solid var(--uplus-border); 
-            border-radius: 8px; 
-            font-size: 14px; 
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--uplus-border);
+            border-radius: 8px;
+            font-size: 14px;
             box-sizing: border-box;
             font-family: 'Noto Sans KR', sans-serif;
         }
+
         input[type="text"]:focus, input[type="password"]:focus {
             outline: none;
             border-color: var(--uplus-pink);
         }
 
-        /* 버튼 디자인 */
-        .submit-btn { 
-            background-color: var(--uplus-pink); 
-            color: #ffffff; 
-            font-size: 18px; 
-            font-weight: 700; 
-            border: none; 
-            border-radius: 8px; 
-            padding: 16px; 
-            width: 100%; 
-            cursor: pointer; 
-            margin-top: 10px; 
+        .submit-btn {
+            background-color: var(--uplus-pink);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 10px;
             transition: background-color 0.2s;
         }
-        .submit-btn:hover { background-color: #cc006f; }
-        .submit-btn:disabled { background-color: #ccc; cursor: not-allowed; }
-        .btn-secondary { background-color: #555; color: #fff; } 
-        .btn-secondary:hover { background-color: #333; }
-        
-        /* 플래너 전용 토글 */
-        .admin-toggle { text-align: center; margin: 30px 0 10px; }
-        .admin-toggle button { background: none; border: none; color: #aaa; cursor: pointer; font-size: 13px; text-decoration: underline; }
-        
-        /* 관리자 뷰 스타일 */
-        .table-container { overflow-x: auto; margin-top: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap; }
-        th, td { border: 1px solid var(--uplus-border); padding: 10px 8px; text-align: center; }
-        th { background-color: var(--uplus-gray); color: var(--uplus-dark); font-weight: 700; position: sticky; top: 0; }
-        tr:nth-child(even) { background-color: #fafafa; }
-        
-        .admin-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
-        .admin-controls button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; flex: 1; min-width: 100px; }
-        .btn-back { background-color: #555; color: white; }
-        .btn-download { background-color: #107c41; color: white; }
-        .btn-clear { background-color: #e74c3c; color: white; }
 
-        /* 공통 로고 스타일 */
+        .submit-btn:hover {
+            background-color: #cc006f;
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #333;
+        }
+
+        .admin-toggle {
+            text-align: center;
+            margin: 30px 0 10px;
+        }
+
+        .admin-toggle button {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 13px;
+            text-decoration: underline;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        th, td {
+            border: 1px solid var(--uplus-border);
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--uplus-gray);
+            color: var(--uplus-dark);
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .admin-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .admin-controls button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .btn-back {
+            background-color: #555;
+            color: white;
+        }
+
+        .btn-download {
+            background-color: #107c41;
+            color: white;
+        }
+
+        .btn-clear {
+            background-color: #e74c3c;
+            color: white;
+        }
+
         .top-logo {
             text-align: center;
             color: var(--uplus-pink);
@@ -220,7 +307,6 @@
             margin-bottom: 10px;
         }
 
-        /* 고정된 아이디 입력란 스타일 */
         .fixed-id {
             background-color: var(--uplus-gray);
             color: #555;
@@ -232,14 +318,14 @@
 <body>
 
 <div class="container">
-    
+
     <div id="menuView" style="padding: 40px 20px;">
         <div class="header" style="padding-top: 10px;">
             <div class="top-logo">U+</div>
             <h1>유플러스 이벤트 진단</h1>
             <p>현재 진행 중인 특별한 프로모션을 확인해보세요!</p>
         </div>
-        
+
         <div style="margin-top: 20px;">
             <div class="event-card">
                 <div class="badge">이벤트 1</div>
@@ -250,7 +336,7 @@
                     <p style="margin:5px 0 0 0;">대전 ▶ 대덕 산업단지, 신탄진 한국타이어</p>
                 </div>
             </div>
-            
+
             <div class="event-card">
                 <div class="badge" style="background-color: #8E44AD;">이벤트 2</div>
                 <h3>학원 특별 프로모션</h3>
@@ -263,7 +349,7 @@
             <button class="submit-btn" onclick="openSurvey('충북')">충북 이벤트 참여하기</button>
             <button class="submit-btn" style="background-color: #8E44AD;" onclick="openSurvey('대전')">대전 이벤트 참여하기</button>
         </div>
-        
+
         <div class="admin-toggle" style="margin-top: 60px;">
             <button type="button" onclick="showAdminLogin()">플래너 전용 페이지 (관리자)</button>
         </div>
@@ -283,7 +369,7 @@
                 <h3>Q1. 📝 고객님의 성함을 적어주세요.</h3>
                 <input type="text" id="q1" placeholder="ex. 홍길동" required>
             </div>
-            
+
             <div class="question">
                 <h3>Q2. 📱 현재 고객님의 휴대폰 통신사는 어디이신가요?</h3>
                 <div class="radio-group">
@@ -291,7 +377,7 @@
                     <label><input type="radio" name="q2" value="타사(SK,KT,알뜰폰)"> 타사(SK,KT,알뜰폰)</label>
                 </div>
             </div>
-            
+
             <div class="question">
                 <h3>Q3. 📺 댁에서 이용 중이신 인터넷/TV 통신사는 어디이신가요?</h3>
                 <div class="radio-group">
@@ -300,7 +386,7 @@
                     <label><input type="radio" name="q3" value="미사용"> 인터넷/TV를 사용하지 않음</label>
                 </div>
             </div>
-            
+
             <div class="question">
                 <h3>Q4. 👨‍👩‍👧‍👦 고객님을 포함한 가족 구성원 수는?</h3>
                 <span class="desc">가족 결합 할인 설계를 위한 문항입니다.</span>
@@ -365,7 +451,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <button type="submit" id="submitBtn" class="submit-btn">할인 혜택 확인하기</button>
             <button type="button" class="submit-btn btn-secondary" onclick="goToMenu()">처음 메뉴로 돌아가기</button>
         </form>
@@ -376,7 +462,7 @@
     </div>
 
     <div id="adminLoginView" style="display: none;">
-        <div class="header" style="padding-top: 60px;"> 
+        <div class="header" style="padding-top: 60px;">
             <button type="button" class="back-nav" onclick="cancelAdminLogin()">← 이전 메뉴로</button>
             <div class="top-logo">플래너 모드</div>
             <h1>플래너 전용 로그인</h1>
@@ -397,11 +483,11 @@
     </div>
 
     <div id="adminView" style="display: none;">
-        <div class="header" style="padding-top: 60px;"> 
+        <div class="header" style="padding-top: 60px;">
             <button type="button" class="back-nav" onclick="goToMenu()">← 이전 메뉴로</button>
             <h1 style="margin-bottom: 0;">통합 이벤트 접수 현황</h1>
         </div>
-        
+
         <div style="padding: 0 20px 20px;">
             <div class="table-container">
                 <table id="resultTable">
@@ -415,10 +501,10 @@
                             <th>가족수</th>
                             <th>산단근무(핵심)</th>
                             <th>학원위치(핵심)</th>
-                            <th>접수위치(GPS)</th> </tr>
+                            <th>접수위치(GPS)</th>
+                        </tr>
                     </thead>
-                    <tbody id="tableBody">
-                        </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
             </div>
 
@@ -432,7 +518,18 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+    // ==============================
+    // Supabase 설정
+    // ==============================
+    const SUPABASE_URL = 'https://ytnxmnbctujuopbqpurl.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_4oBm89ecivuVF6StOBz7yg_qNBItC4z';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 저장 테이블명
+    const TABLE_NAME = 'region_event_data';
+
     // 화면별 ID 모음
     const views = {
         menu: document.getElementById('menuView'),
@@ -441,13 +538,13 @@
         admin: document.getElementById('adminView')
     };
 
-    let selectedRegion = ''; // 선택된 지역(충북/대전) 저장 변수
+    let selectedRegion = '';
+    let currentAdminRows = [];
 
-    // 화면 전환 함수
     function switchView(targetView) {
         Object.values(views).forEach(v => v.style.display = 'none');
         views[targetView].style.display = 'block';
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
     function goToMenu() {
@@ -455,15 +552,13 @@
         document.getElementById('integratedForm').reset();
     }
 
-    // 지역별 이벤트 참여 버튼 클릭 시
     function openSurvey(region) {
-        selectedRegion = region; // 충북 or 대전 저장
+        selectedRegion = region;
 
         const cbDiv = document.getElementById('chungbukQuestions');
         const djDiv = document.getElementById('daejeonQuestions');
 
-        // 선택되지 않은 지역의 질문을 숨기고, input을 disabled 처리하여 제출 시 겹치지 않게 함
-        if(region === '충북') {
+        if (region === '충북') {
             cbDiv.style.display = 'block';
             djDiv.style.display = 'none';
             cbDiv.querySelectorAll('input').forEach(el => el.disabled = false);
@@ -478,134 +573,163 @@
         switchView('surveyView');
     }
 
-    // 플래너 로그인 
-    function showAdminLogin() { switchView('adminLogin'); }
-    function cancelAdminLogin() { document.getElementById('loginPw').value = ''; switchView('menu'); }
+    function showAdminLogin() {
+        switchView('adminLogin');
+    }
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    function cancelAdminLogin() {
+        document.getElementById('loginPw').value = '';
+        switchView('menu');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const pwInput = document.getElementById('loginPw').value;
-        if (pwInput === 'ureem2012') { 
-            document.getElementById('loginPw').value = ''; 
+        if (pwInput === 'ureem2012') {
+            document.getElementById('loginPw').value = '';
             switchView('admin');
-            loadAdminData(); 
+            await loadAdminData();
         } else {
             alert('비밀번호가 일치하지 않습니다.');
         }
     });
 
-    // --- 폼 제출 및 GPS 로직 ---
-    document.getElementById('integratedForm').addEventListener('submit', function(e) {
+    function formatKoreanDate(dateValue) {
+        const date = new Date(dateValue);
+        if (isNaN(date.getTime())) return '-';
+        return date.toLocaleString('ko-KR');
+    }
+
+    // ==============================
+    // 폼 제출
+    // ==============================
+    document.getElementById('integratedForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const submitBtn = document.getElementById('submitBtn');
-        submitBtn.disabled = true; // 중복 제출 방지
+        submitBtn.disabled = true;
         submitBtn.innerText = "위치 확인 및 접수 중...";
 
-        // disabled 되지 않은(현재 보이는 화면의) 라디오 버튼 값만 가져옵니다.
         const q5_val = document.querySelector('input[name="q5"]:not([disabled]):checked')?.value || '-';
         const q6_val = document.querySelector('input[name="q6"]:not([disabled]):checked')?.value || '-';
 
-        // 데이터를 저장하는 내부 함수
-        const saveData = (locationStr) => {
-            const result = {
-                region: selectedRegion, // 충북 또는 대전
-                q1: document.getElementById('q1').value,
+        const saveData = async (locationStr) => {
+            const payload = {
+                region: selectedRegion,
+                q1: document.getElementById('q1').value.trim(),
                 q2: document.querySelector('input[name="q2"]:checked')?.value || '-',
                 q3: document.querySelector('input[name="q3"]:checked')?.value || '-',
                 q4: document.querySelector('input[name="q4"]:checked')?.value || '-',
                 q5: q5_val,
                 q6: q6_val,
-                location: locationStr, // 수집된 위치 데이터 삽입
-                timestamp: new Date().toLocaleString()
+                location: locationStr,
+                created_at: new Date().toISOString()
             };
-            
-            // 새 데이터 포맷을 위해 V2로 변경
-            let savedData = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
-            savedData.push(result);
-            localStorage.setItem('regionEventDataV2', JSON.stringify(savedData));
-            
+
+            const { error } = await supabaseClient
+                .from(TABLE_NAME)
+                .insert([payload]);
+
+            if (error) {
+                console.error('Supabase insert error:', error);
+                alert('접수 저장 중 오류가 발생했습니다.\n테이블명 또는 컬럼 구성을 확인해주세요.');
+                submitBtn.disabled = false;
+                submitBtn.innerText = "할인 혜택 확인하기";
+                return;
+            }
+
             alert(`[${selectedRegion} 지역] 이벤트 접수가 완료되었습니다! 🎉\n담당 플래너가 혜택을 확인하고 안내해 드리겠습니다.`);
-            
             document.getElementById('integratedForm').reset();
             submitBtn.disabled = false;
             submitBtn.innerText = "할인 혜택 확인하기";
-            switchView('menu'); 
+            switchView('menu');
         };
 
-        // GPS 위치 가져오기 시도
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                function(position) {
+                async function(position) {
                     const lat = position.coords.latitude.toFixed(5);
                     const lng = position.coords.longitude.toFixed(5);
-                    saveData(`${lat}, ${lng}`);
+                    await saveData(`${lat}, ${lng}`);
                 },
-                function(error) {
-                    saveData("위치 확인 불가(권한거부)");
+                async function() {
+                    await saveData("위치 확인 불가(권한거부)");
                 },
-                { timeout: 5000 } // 5초 시간 제한
+                { timeout: 5000 }
             );
         } else {
-            saveData("GPS 지원하지 않음");
+            await saveData("GPS 지원하지 않음");
         }
     });
 
-    // --- 관리자 데이터 표 그리기 ---
-    function loadAdminData() {
+    // ==============================
+    // 관리자 데이터 로드
+    // ==============================
+    async function loadAdminData() {
         const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = ''; 
+        tbody.innerHTML = '<tr><td colspan="9" style="padding:30px; color:#777;">데이터를 불러오는 중입니다...</td></tr>';
 
-        const data = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
-        
-        if(data.length === 0) {
+        const { data, error } = await supabaseClient
+            .from(TABLE_NAME)
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Supabase select error:', error);
+            tbody.innerHTML = '<tr><td colspan="9" style="padding:30px; color:#e74c3c;">데이터를 불러오지 못했습니다.<br>테이블명 또는 권한(RLS)을 확인해주세요.</td></tr>';
+            return;
+        }
+
+        currentAdminRows = data || [];
+        tbody.innerHTML = '';
+
+        if (currentAdminRows.length === 0) {
             tbody.innerHTML = '<tr><td colspan="9" style="padding:30px; color:#777;">아직 접수된 고객 내역이 없습니다.</td></tr>';
             return;
         }
-        
-        data.slice().reverse().forEach(row => {
+
+        currentAdminRows.forEach(row => {
             const tr = document.createElement('tr');
-            
-            // 지역에 따라 색상 뱃지 다르게 표시
-            const regionBadge = row.region === '충북' 
+
+            const regionBadge = row.region === '충북'
                 ? `<span style="background:var(--uplus-pink); color:white; padding:3px 8px; border-radius:10px;">충북</span>`
                 : `<span style="background:#8E44AD; color:white; padding:3px 8px; border-radius:10px;">대전</span>`;
 
-            // 좌표인 경우 구글맵 링크 생성 (수정된 완벽한 구글 맵 주소!)
             let locDisplay = row.location || '-';
-            if(locDisplay.includes(',')) {
-                const coords = row.location.replace(/ /g, '');
+            if (typeof locDisplay === 'string' && locDisplay.includes(',')) {
+                const coords = locDisplay.replace(/ /g, '');
                 locDisplay = `<a href="https://www.google.com/maps/search/?api=1&query=${coords}" target="_blank" style="color:var(--uplus-pink); text-decoration:underline; font-weight:bold;">지도보기</a><br><span style="font-size:10px; color:#888;">(${row.location})</span>`;
             }
 
             tr.innerHTML = `
                 <td>${regionBadge}</td>
-                <td style="font-size:11px;">${row.timestamp}</td>
-                <td style="font-weight:bold; color:var(--uplus-pink);">${row.q1}</td>
-                <td>${row.q2}</td>
-                <td>${row.q3}</td>
-                <td>${row.q4}</td>
-                <td style="font-weight:bold;">${row.q5}</td>
-                <td style="font-size:11px; white-space:normal; min-width:120px;">${row.q6}</td>
+                <td style="font-size:11px;">${formatKoreanDate(row.created_at)}</td>
+                <td style="font-weight:bold; color:var(--uplus-pink);">${row.q1 || '-'}</td>
+                <td>${row.q2 || '-'}</td>
+                <td>${row.q3 || '-'}</td>
+                <td>${row.q4 || '-'}</td>
+                <td style="font-weight:bold;">${row.q5 || '-'}</td>
+                <td style="font-size:11px; white-space:normal; min-width:120px;">${row.q6 || '-'}</td>
                 <td style="font-size:12px; font-weight:bold;">${locDisplay}</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
-    // --- 엑셀 다운로드 ---
+    // ==============================
+    // CSV 다운로드
+    // ==============================
     function downloadCSV() {
-        const savedData = JSON.parse(localStorage.getItem('regionEventDataV2')) || [];
-        if(savedData.length === 0) {
+        if (!currentAdminRows.length) {
             alert("다운로드할 데이터가 없습니다.");
             return;
         }
 
-        let csvContent = "\uFEFF"; // 한글 깨짐 방지
+        let csvContent = "\uFEFF";
         csvContent += "지역,접수일시,고객명,현재 모바일,인터넷/TV,가족 수,산단근무여부,학원위치,접수위치(GPS)\n";
-        
-        savedData.forEach(d => {
-            csvContent += `"${d.region}","${d.timestamp}","${d.q1}","${d.q2}","${d.q3}","${d.q4}","${d.q5}","${d.q6}","${d.location || '-'}"\n`;
+
+        currentAdminRows.forEach(d => {
+            csvContent += `"${d.region || ''}","${formatKoreanDate(d.created_at)}","${d.q1 || ''}","${d.q2 || ''}","${d.q3 || ''}","${d.q4 || ''}","${d.q5 || ''}","${d.q6 || ''}","${d.location || '-'}"\n`;
         });
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -622,15 +746,35 @@
         document.body.removeChild(link);
     }
 
-    // --- 초기화 ---
-    function clearData() {
-        if(confirm("정말 모든 접수 내역을 삭제하시겠습니까? (삭제 전 엑셀 저장을 권장합니다)")) {
-            localStorage.removeItem('regionEventDataV2');
-            loadAdminData();
-            alert("전체 내역이 초기화 되었습니다.");
-        }
+    // ==============================
+    // 전체 데이터 초기화
+    // ==============================
+   async function clearData() {
+
+    const pw = prompt("전체 데이터 삭제 비밀번호를 입력하세요");
+    if(pw !== "2012ureem"){
+        alert("비밀번호가 올바르지 않습니다.");
+        return;
     }
 
+    if (!confirm("정말 모든 접수 내역을 삭제하시겠습니까? (삭제 전 엑셀 저장을 권장합니다)")) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from(TABLE_NAME)
+        .delete()
+        .neq('id', 0);
+       
+        if (error) {
+            console.error('Supabase delete error:', error);
+            alert('전체 삭제 중 오류가 발생했습니다.\nRLS 정책 또는 테이블 권한을 확인해주세요.');
+            return;
+        }
+
+        await loadAdminData();
+        alert("전체 내역이 초기화 되었습니다.");
+    }
 </script>
 
 </body>
